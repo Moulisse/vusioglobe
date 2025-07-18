@@ -5,7 +5,7 @@ theme: seriph
 # like them? see https://unsplash.com/collections/94734566/slidev
 background: https://plus.unsplash.com/premium_photo-1670872717035-d84647297aa8?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
 # some information about your slides (markdown enabled)
-title: Vettting started
+title: Vusioglobe
 titleTemplate: '%s'
 # apply unocss classes to the current slide
 class: text-center
@@ -36,12 +36,13 @@ Présentation d'outils à utiliser dans vos projets vue
 - Linter
 - VueUse
 - UnJS / auto import
+- Composants headless
 - Tailwind
 - Iconify
 
 ---
 
-# Typescript
+# [Typescript](https://www.typescriptlang.org/)
 
 Utilisez typescript s'il vous plait ceci est un appel à l'aide.
 
@@ -58,17 +59,17 @@ Un projet bien typé est un projet sain
 - Détecter les erreurs
 - Applique des rêgles de formatage
 
-On utilise :
+On utilise : [ESLint](https://eslint.style/)
 
 <img src="./assets/eslint.png" class="w-[40%] m-auto">
 
-Nouveau cool kid :
+Nouveau cool kid : [Oxc](https://oxc.rs/)
 
 <img src="./assets/oxc.png" class="w-[40%] m-auto">
 
 ---
 
-# VueUse
+# [VueUse](https://vueuse.org/)
 
 Une collection de composables d'utilité publique
 
@@ -101,7 +102,8 @@ C'est réactif !
 
 \- de code = + de place pour plus de code 
 
-Grace à `unplugin-auto-import` et `unplugin-vue-components`
+Grace à [`unplugin-auto-import`](https://github.com/unplugin/unplugin-auto-import)
+et [`unplugin-vue-components`](https://github.com/unplugin/unplugin-vue-components)
 
 ````md magic-move {lines: true}
 ```vue
@@ -130,23 +132,74 @@ const { x, y } = useMouse()
 
 ---
 
-# Tailwind CSS
+# Composants headless / non stylisés
 
-(Ou UnoCSS)
+Comme une bibliothèque de composants, mais sans CSS
 
-Plus besoin de réecrire
+Un exemple avec [`HeadlessUI`](https://headlessui.com/v1/vue):
+
+````md magic-move {lines: true}
+```vue
+<template>
+  <Dialog :open="isOpen" @close="setIsOpen">
+    <DialogPanel>
+      <DialogTitle>Deactivate account</DialogTitle>
+
+      <button @click="setIsOpen(false)">Deactivate</button>
+      <button @click="setIsOpen(false)">Cancel</button>
+    </DialogPanel>
+  </Dialog>
+</template>
+
+<script setup>
+  const isOpen = ref(true)
+
+  function setIsOpen(value) {
+    isOpen.value = value
+  }
+</script>
+```
+```vue
+<template>
+  <Dialog :open="isOpen" @close="setIsOpen">
+    <DialogPanel class="rounded bg-white shadow">
+      <DialogTitle class="text-xl text-bold">Deactivate account</DialogTitle>
+
+      <button @click="setIsOpen(false)" class="btn">Deactivate</button>
+      <button @click="setIsOpen(false)" class="btn">Cancel</button>
+    </DialogPanel>
+  </Dialog>
+</template>
+
+<script setup>
+  const isOpen = ref(true)
+
+  function setIsOpen(value) {
+    isOpen.value = value
+  }
+</script>
+```
+````
+
+A tester : **Radix Vue**
+
+---
+
+# [Tailwind CSS](https://tailwindcss.com/)
+
+\<div class="flex items-center justify-center">
+
+Plus besoin de réecrire dans chaques projets :
 
 ```css
-.flex {
-  display: flex;
+.container {
+  display: flex; align_items: center; justify-content: center
 }
 ```
 
-dans chaque projet !
-
 Avantages :
 
-- Moins de css dans le code
+- Plus besoin d'écrire du css
 - Moins de css dans le bundle final
 - Meilleur collaboration d'équipe
 
