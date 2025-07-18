@@ -36,6 +36,8 @@ Présentation d'outils à utiliser dans vos projets vue
 - Linter
 - VueUse
 - UnJS / auto import
+- Pinia
+- Tanstack Query
 - Composants headless
 - Tailwind
 - Iconify
@@ -102,8 +104,8 @@ C'est réactif !
 
 \- de code = + de place pour plus de code 
 
-Grace à [`unplugin-auto-import`](https://github.com/unplugin/unplugin-auto-import)
-et [`unplugin-vue-components`](https://github.com/unplugin/unplugin-vue-components)
+Grace à [**unplugin-auto-import**](https://github.com/unplugin/unplugin-auto-import)
+et [**unplugin-vue-components**](https://github.com/unplugin/unplugin-vue-components)
 
 ````md magic-move {lines: true}
 ```vue
@@ -132,11 +134,67 @@ const { x, y } = useMouse()
 
 ---
 
+# [Pinia](https://pinia.vuejs.org/)
+
+Un store qui ne s'éloigne pas trop du JS
+
+Definition d'un store :
+
+```js
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+  const doubleCount = computed(() => count.value * 2)
+  function increment() {
+    count.value++
+  }
+  return { count, doubleCount, increment }
+})
+```
+
+Utilisation dans un composant vue :
+
+```vue
+<script>
+const useCounter = useCounterStore()
+</script>
+
+<template>
+  {{ useCounter.doubleCount }}
+  <button @click="useCounter.increment">+1<button/>
+</template>
+```
+
+
+---
+
+# [Tanstack Query](https://tanstack.com/query/latest)
+
+comme axios mais avec plus de sucre
+
+- Auto caching/refetching
+- Polling
+- Pagination
+
+```vue
+<script setup>
+import { useQuery } from '@tanstack/vue-query'
+
+const { isPending, isFetching, isError, data, error } = useQuery({
+  queryKey: ['projects'],
+  queryFn: () => axios.get('/projects),
+})
+</script>
+
+<template>...</template>
+```
+
+---
+
 # Composants headless / non stylisés
 
 Comme une bibliothèque de composants, mais sans CSS
 
-Un exemple avec [`HeadlessUI`](https://headlessui.com/v1/vue):
+Un exemple avec [**HeadlessUI**](https://headlessui.com/v1/vue):
 
 ````md magic-move {lines: true}
 ```vue
@@ -181,7 +239,7 @@ Un exemple avec [`HeadlessUI`](https://headlessui.com/v1/vue):
 ```
 ````
 
-A tester : **Radix Vue**
+A tester : [**Radix Vue**](https://www.radix-vue.com/)
 
 ---
 
